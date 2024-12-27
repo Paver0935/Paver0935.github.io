@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode Generator</title>
+    <script src="./JsBarcode.code128.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 4"%3E%3Crect width="4" height="4" fill="%23aaa"/%3E%3Crect width="2" height="2" fill="%23fff"/%3E%3Crect x="2" y="2" width="2" height="2" fill="%23fff"/%3E%3C/svg%3E');
+            background-size: 4px 4px;
+        }
+
+        img {
+            margin-bottom: 20px;
+        }
+
+        #barcodeContainer {
+            border: 2px solid black;
+            padding: 20px;
+            background-color: white;
+            display: inline-block;
+        }
+
+        #barcodeCanvas {
+            margin: 10px auto;
+            display: block;
+        }
+
+        button {
+            background-color: #ddd;
+            border: 2px solid black;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #bbb;
+        }
+
+        button:active {
+            background-color: #999;
+        }
+    </style>
+</head>
+<body>
+    <img src="./fp1.png" alt="Logo">
+    <div id="barcodeContainer">
+        <button onclick="generateBarcode()">Generate</button>
+        <canvas id="barcodeCanvas"></canvas>
+    </div>
+    <script>
+        function generateBarcode() {
+            const canvas = document.getElementById("barcodeCanvas");
+            const today = new Date();
+            var tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1); 
+
+            var dd = String(tomorrow.getDate()).padStart(2, '0');
+            var mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+            var yy = String(tomorrow.getFullYear().toString().substr(-2));
+            var code = "88" + yy + mm + dd;
+            console.log(code);
+
+            JsBarcode(canvas, code, {
+                format: "CODE128", 
+                lineColor: "#000",
+                width: 3,          
+                height: 100,       
+                displayValue: false 
+            });
+        }
+    </script>
+</body>
+</html>
